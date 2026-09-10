@@ -233,6 +233,15 @@ p { margin: 0; }
   .scrub-copy, .scrub-copy.right { left: var(--gutter); right: var(--gutter); max-width: none; bottom: 12vh; }
   .scrub-copy.center { left: 50%; right: auto; }
 }
+/* 세로 화면(폰): 16:9 영상을 잘라내지 않고 통째로 보여준다. 배경이 검정이라 위아래 여백이 드러나지 않는다.
+   --mzoom 만큼만 살짝 키워 양옆을 조금 자른다 (섹션별로 data-mzoom 으로 조절 가능). */
+@media (max-width: 860px) and (orientation: portrait) {
+  .scrub-video, .scrub-loop { object-fit: contain; object-position: center 46%; transform: scale(var(--mzoom, 1.22)); transform-origin: 50% 46%; }
+  .scrub-copy, .scrub-copy.right { bottom: 8vh; }
+  .scrub-copy.center { bottom: 10vh; }
+  .scrub-copy h2 { font-size: clamp(26px, 7.4vw, 34px); }
+  .scrub-copy p { font-size: 15px; }
+}
 
 /* ---------- 5. 취향 ---------- */
 .taste-head { max-width: 640px; margin-bottom: clamp(36px, 5vw, 60px); }
