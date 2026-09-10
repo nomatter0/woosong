@@ -288,7 +288,7 @@ $$('.scrub').forEach(el => new Scrub(el));
       <a class="btn-glass glass" href="tel:${BRAND.tel}">세트 문의하기</a>`;
     const picks = PRODUCTS.map(p => ({ p, d: dist(state, p) })).sort((x, y) => x.d - y.d).slice(0, 3);
     $('#taste-picks').innerHTML = picks.map(({ p, d }) => `
-      <a class="pick glass" href="#p-${p.id}"><img src="${p.img}" alt="${p.name}" loading="lazy" /><b class="shine">${p.name}</b><small>${match(d)}% 일치</small></a>`).join('');
+      <a class="pick glass" href="products/${p.id}.html"><img src="${p.img}" alt="${p.name}" loading="lazy" /><b class="shine">${p.name}</b><small>${match(d)}% 일치</small></a>`).join('');
   };
   inputs.forEach(inp => { paint(inp); inp.addEventListener('input', () => { state[inp.name] = inp.value / 100; paint(inp); render(); }); });
   $('#taste-form').addEventListener('change', render);
@@ -300,14 +300,14 @@ $$('.scrub').forEach(el => new Scrub(el));
   const grid = $('#product-grid'); if (!grid) return;
   grid.innerHTML = PRODUCTS.map(p => `
     <article class="card glass" id="p-${p.id}">
-      <div class="card-media">
+      <a class="card-media" href="products/${p.id}.html" aria-label="${p.name} 상세 보기">
         <img class="main" src="${p.img}" alt="${p.name}" loading="lazy" />
         <img class="alt" src="${p.pack}" alt="${p.name} 스킨포장" loading="lazy" />
-      </div>
-      <div class="card-head"><h3 class="shine">${p.name}</h3><span class="grade">1++</span></div>
-      <small class="muted">${p.en} · ${p.guide[2]}</small>
+      </a>
+      <div class="card-head"><h3 class="shine"><a href="products/${p.id}.html">${p.name}</a></h3><span class="grade">1++</span></div>
+      <small class="muted">${p.en} · 100g ${won(p.price100)}</small>
       <p>${p.desc}</p>
-      <div class="card-foot"><span class="muted">100g 단위 주문</span><a class="btn-glass glass" href="tel:${BRAND.tel}">주문 문의</a></div>
+      <div class="card-foot"><a class="more" href="products/${p.id}.html">자세히 보기</a><a class="btn-glass glass" href="products/${p.id}.html">주문하기</a></div>
     </article>`).join('');
 })();
 
@@ -332,7 +332,7 @@ $$('.scrub').forEach(el => new Scrub(el));
   const io = new IntersectionObserver(en => {
     en.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id)); });
   }, { rootMargin: '-40% 0px -55% 0px' });
-  links.forEach(a => { const t = $(a.getAttribute('href')); if (t) io.observe(t); });
+  links.forEach(a => { const h = a.getAttribute('href'); if (!h.startsWith('#')) return; const t = $(h); if (t) io.observe(t); });
   const tel = `tel:${BRAND.tel}`;
   $('#nav-call').href = tel; $('#foot-tel').href = tel; $('#foot-tel').textContent = BRAND.tel;
   $('#foot-address').textContent = BRAND.address; $('#foot-hours').textContent = BRAND.hours;
