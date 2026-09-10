@@ -43,7 +43,7 @@ const page = p => {
     offers: { '@type': 'Offer', priceCurrency: 'KRW', price: p.price100, availability: 'https://schema.org/InStock', url: `${SITE}/products/${p.id}.html` } })}
   </script>
 </head>
-<body class="product-page" data-id="${p.id}" data-price100="${p.price100}" data-wmin="${wMin}" data-wmax="${wMax}" data-wdef="${wDef}">
+<body class="product-page" data-root="../" data-id="${p.id}" data-price100="${p.price100}" data-wmin="${wMin}" data-wmax="${wMax}" data-wdef="${wDef}">
 
 <header class="nav scrolled" id="nav">
   <a class="brand" href="../index.html" aria-label="우송 처음으로">
@@ -57,8 +57,17 @@ const page = p => {
     <a href="../index.html#sets">선물세트</a>
     <a href="../index.html#visit">오시는 길</a>
   </nav>
-  <a class="btn-glass glass btn-call" id="nav-call" href="tel:${BRAND.tel}">전화 주문</a>
+  <div class="nav-right">
+    <a class="btn-glass glass btn-call" id="nav-call" href="tel:${BRAND.tel}">전화 주문</a>
+    <button class="cart-btn" type="button" aria-label="장바구니"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 8.5H7.5z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg><span class="cart-count">0</span></button>
+    <button class="menu-btn" type="button" id="menu-btn" aria-label="메뉴 열기" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
 </header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="모바일 메뉴">
+  <button class="mm-x" type="button" id="menu-x" aria-label="메뉴 닫기">×</button>
+  <a href="../index.html#cut">손질</a><a href="../index.html#grill">숯불</a><a href="../index.html#taste">취향</a><a href="../index.html#products">부위</a><a href="../index.html#sets">선물세트</a><a href="../index.html#reviews">후기</a><a href="../index.html#visit">오시는 길</a>
+  <div class="mm-cta"><a class="btn-glass glass" href="tel:${BRAND.tel}">전화 주문</a><button class="btn-glass glass" type="button" id="mm-cart">장바구니</button></div>
+</nav>
 
 <main class="pd wrap glass-field">
   <p class="crumbs"><a href="../index.html">우송</a><span>/</span><a href="../index.html#products">부위</a><span>/</span><b>${esc(p.name)}</b></p>
@@ -97,12 +106,16 @@ const page = p => {
           <span class="pd-weight-hint">${wMin}g부터 100g 단위 · 약 <b id="w-people">${Math.max(1, Math.round(wDef / p.serve))}</b>인분</span>
         </div>
         <div class="pd-total"><span>예상 금액</span><b id="pd-total">${won(p.price100 * wDef / 100)}</b></div>
-        <div class="pd-cta">
-          <a class="btn-glass glass primary" id="pd-call" href="tel:${BRAND.tel}">전화로 주문 · ${BRAND.tel}</a>
+        <div class="pd-cta two">
+          <button class="btn-glass glass" id="pd-add" type="button">장바구니 담기</button>
+          <button class="btn-glass glass primary" id="pd-buy" type="button">바로 주문</button>
+        </div>
+        <div class="pd-cta" style="margin-top:10px">
+          <a class="btn-glass glass" id="pd-call" href="tel:${BRAND.tel}">전화로 주문 · ${BRAND.tel}</a>
           <a class="btn-glass glass" id="pd-kakao" href="${BRAND.kakao}">카카오톡 문의</a>
           <a class="btn-glass glass" id="pd-store" href="${BRAND.store}">스마트스토어</a>
         </div>
-        <p class="pd-note">주문하신 날 손질해 스킨포장으로 보냅니다. 실제 중량은 ±10g 정도 차이가 날 수 있습니다.</p>
+        <p class="pd-note">주문하신 날 손질해 스킨포장으로 보냅니다. 실제 중량은 ±10g 정도 차이가 날 수 있습니다. ${BRAND.freeShippingOver ? won(BRAND.freeShippingOver) + ' 이상 무료배송.' : ''}</p>
       </div>
     </div>
   </section>
@@ -165,7 +178,14 @@ const page = p => {
   <p class="copyright">© 우송 牛松. 가격과 구성은 시기에 따라 변동될 수 있습니다.</p>
 </footer>
 
+<div class="pd-bar glass" id="pd-bar">
+  <div class="pd-bar-price"><small id="bar-weight">${wDef}g</small><b id="bar-total">${won(p.price100 * wDef / 100)}</b></div>
+  <button class="btn-glass glass" type="button" id="bar-add">담기</button>
+  <button class="btn-glass glass primary" type="button" id="bar-buy">바로 주문</button>
+</div>
+
 <script type="module" src="../js/main.js"></script>
+<script type="module" src="../js/cart.js"></script>
 <script type="module" src="../js/product.js"></script>
 </body>
 </html>

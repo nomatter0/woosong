@@ -285,7 +285,7 @@ $$('.scrub').forEach(el => new Scrub(el));
       <h3>${set.name}</h3>
       <p class="price">${set.note} · ${won(set.price)}</p>
       <div class="items">${set.items.map(id => `<span>${byId(id).name}</span>`).join('')}</div>
-      <a class="btn-glass glass" href="tel:${BRAND.tel}">세트 문의하기</a>`;
+      <button class="btn-glass glass" type="button" data-add-set="${set.id}">세트 담기</button>`;
     const picks = PRODUCTS.map(p => ({ p, d: dist(state, p) })).sort((x, y) => x.d - y.d).slice(0, 3);
     $('#taste-picks').innerHTML = picks.map(({ p, d }) => `
       <a class="pick glass" href="products/${p.id}.html"><img src="${p.img}" alt="${p.name}" loading="lazy" /><b class="shine">${p.name}</b><small>${match(d)}% 일치</small></a>`).join('');
@@ -320,8 +320,18 @@ $$('.scrub').forEach(el => new Scrub(el));
       <h3>${s.name}</h3>
       <p class="price">${won(s.price)}</p>
       <div class="items">${s.items.map(id => `<span>${byId(id).name}</span>`).join('')}</div>
-      <a class="btn-glass glass" href="tel:${BRAND.tel}">주문 문의</a>
+      <button class="btn-glass glass" type="button" data-add-set="${s.id}">세트 담기</button>
     </article>`).join('');
+})();
+
+/* ---------- 모바일 메뉴 ---------- */
+(() => {
+  const btn = $('#menu-btn'), menu = $('#mobile-menu'); if (!btn || !menu) return;
+  const set = on => { menu.classList.toggle('on', on); btn.setAttribute('aria-expanded', on); document.body.style.overflow = on ? 'hidden' : ''; };
+  btn.addEventListener('click', () => set(true));
+  $('#menu-x').addEventListener('click', () => set(false));
+  $$('a', menu).forEach(a => a.addEventListener('click', () => set(false)));
+  $('#mm-cart')?.addEventListener('click', () => { set(false); document.querySelector('.cart-btn')?.click(); });
 })();
 
 /* ---------- 내비 · 연락처 ---------- */
@@ -334,7 +344,9 @@ $$('.scrub').forEach(el => new Scrub(el));
   }, { rootMargin: '-40% 0px -55% 0px' });
   links.forEach(a => { const h = a.getAttribute('href'); if (!h.startsWith('#')) return; const t = $(h); if (t) io.observe(t); });
   const tel = `tel:${BRAND.tel}`;
-  $('#nav-call').href = tel; $('#foot-tel').href = tel; $('#foot-tel').textContent = BRAND.tel;
-  $('#foot-address').textContent = BRAND.address; $('#foot-hours').textContent = BRAND.hours;
-  $('#foot-store').href = BRAND.store; $('#foot-kakao').href = BRAND.kakao; $('#foot-insta').href = BRAND.instagram;
+  const set = (id, fn) => { const el = $(id); if (el) fn(el); };
+  set('#nav-call', el => el.href = tel);
+  set('#foot-tel', el => { el.href = tel; el.textContent = BRAND.tel; });
+  set('#foot-address', el => el.textContent = BRAND.address); set('#foot-hours', el => el.textContent = BRAND.hours);
+  set('#foot-store', el => el.href = BRAND.store); set('#foot-kakao', el => el.href = BRAND.kakao); set('#foot-insta', el => el.href = BRAND.instagram);
 })();

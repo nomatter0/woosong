@@ -1,5 +1,6 @@
-// 상품 상세페이지: 중량 스텝퍼·금액 계산·사진 전환. 글라스/자개/단어 등장 효과는 main.js 가 담당한다.
+// 상품 상세페이지: 중량 스텝퍼·금액 계산·사진 전환·장바구니. 글라스/자개/단어 등장 효과는 main.js 가 담당한다.
 import { BRAND, PRODUCTS } from './data.js';
+import { addProduct, close as closeCart } from './cart.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const won = n => n.toLocaleString('ko-KR') + '원';
@@ -8,18 +9,23 @@ const p = PRODUCTS.find(x => x.id === body.dataset.id);
 if (p) {
   const min = Number(body.dataset.wmin), max = Number(body.dataset.wmax), price100 = Number(body.dataset.price100);
   let w = Number(body.dataset.wdef);
-  const out = $('#w-out'), total = $('#pd-total'), people = $('#w-people'), minus = $('#w-minus'), plus = $('#w-plus'), call = $('#pd-call');
+  const out = $('#w-out'), total = $('#pd-total'), people = $('#w-people'), minus = $('#w-minus'), plus = $('#w-plus');
   const render = () => {
     out.value = w + 'g'; out.textContent = w + 'g';
     total.textContent = won(price100 * w / 100);
     people.textContent = Math.max(1, Math.round(w / p.serve));
     minus.disabled = w <= min; plus.disabled = w >= max;
-    // 전화 버튼에 주문 내용을 문자로도 보낼 수 있게 sms 링크를 함께 둔다 (길게 누르면 선택)
-    call.dataset.order = `${p.name} ${w}g`;
+    $('#bar-weight').textContent = w + 'g'; $('#bar-total').textContent = won(price100 * w / 100);
   };
   minus.addEventListener('click', () => { w = Math.max(min, w - 100); render(); });
   plus.addEventListener('click', () => { w = Math.min(max, w + 100); render(); });
   render();
+
+  // 장바구니 담기 / 바로 주문
+  const add = () => addProduct(p.id, w);
+  const buy = () => { addProduct(p.id, w); closeCart(); location.href = '../checkout.html'; };
+  $('#pd-add').addEventListener('click', add); $('#bar-add').addEventListener('click', add);
+  $('#pd-buy').addEventListener('click', buy); $('#bar-buy').addEventListener('click', buy);
 
   // 사진 전환
   const main = $('#pd-main-img');
@@ -35,4 +41,8 @@ if (p) {
   const kakao = $('#pd-kakao'), store = $('#pd-store');
   if (!BRAND.kakao || BRAND.kakao === '#') kakao.hidden = true; else kakao.href = BRAND.kakao;
   if (!BRAND.store || BRAND.store === '#') store.hidden = true; else store.href = BRAND.store;
+
+  // 모바일 하단바: 주문 박스가 화면에 보이면 숨긴다
+  const bar = $('#pd-bar'), box = $('#pd-order');
+  if (bar && box) new IntersectionObserver(en => { bar.style.transform = en[0].isIntersecting ? 'translateY(120%)' : ''; bar.style.transition = 'transform .3s'; }).observe(box);
 }

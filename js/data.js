@@ -11,6 +11,13 @@ export const BRAND = {
   store: '#', kakao: '#', instagram: '#',   // TODO: 링크
   mapImage: '',                             // TODO: 지도 사진 경로 (예: 'assets/img/map.webp') — 비우면 도로 일러스트가 나옵니다
   coords: '',                               // TODO: 예: '35.2417° N, 129.0854° E'
+  // 주문·결제
+  bank: { name: '은행명', number: '계좌번호를 입력해 주세요', holder: '예금주' },   // TODO: 무통장입금 계좌
+  orderEndpoint: '',      // 선택: Formspree 등 주문서 수신 URL (예: 'https://formspree.io/f/xxxx'). 비우면 문자/카카오톡으로 주문 내용을 보냅니다
+  orderSms: '',           // 선택: 주문 문자를 받을 번호 (비우면 tel 사용)
+  shipping: 5000,         // 배송비 (원)
+  freeShippingOver: 100000, // 이 금액 이상 무료배송 (0이면 항상 유료)
+  cardPayment: false,     // PG 연동 후 true
 };
 
 // 후기 — 예시 문구입니다. 실제 후기로 바꿔 주세요. (avatar 는 이니셜로 그립니다)

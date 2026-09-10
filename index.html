@@ -28,8 +28,17 @@
     <a href="#reviews">후기</a>
     <a href="#visit">오시는 길</a>
   </nav>
-  <a class="btn-glass glass btn-call" id="nav-call" href="tel:010-3797-0351">전화 주문</a>
+  <div class="nav-right">
+    <a class="btn-glass glass btn-call" id="nav-call" href="tel:010-3797-0351">전화 주문</a>
+    <button class="cart-btn" type="button" aria-label="장바구니"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 8.5H7.5z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/></svg><span class="cart-count">0</span></button>
+    <button class="menu-btn" type="button" id="menu-btn" aria-label="메뉴 열기" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
 </header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="모바일 메뉴">
+  <button class="mm-x" type="button" id="menu-x" aria-label="메뉴 닫기">×</button>
+  <a href="#cut">손질</a><a href="#grill">숯불</a><a href="#pack">포장</a><a href="#taste">취향</a><a href="#products">부위</a><a href="#sets">선물세트</a><a href="#reviews">후기</a><a href="#visit">오시는 길</a>
+  <div class="mm-cta"><a class="btn-glass glass" href="tel:010-3797-0351">전화 주문</a><button class="btn-glass glass cart-btn-text" type="button" id="mm-cart">장바구니</button></div>
+</nav>
 
 <!-- 1. 오프닝: 왼→오 조명 스윕 후 커서를 따라가는 조명 -->
 <section id="top" class="hero" aria-label="우송 소개">
@@ -49,7 +58,7 @@
 </section>
 
 <!-- 2. 손질: 스크롤만큼 칼이 들어가고 조각이 눕는다 -->
-<section id="cut" class="scrub" style="--mzoom:1.18" data-clip="assets/vid/cut.mp4" data-vh="3.4" aria-label="손질">
+<section id="cut" class="scrub" data-clip="assets/vid/cut.mp4" data-vh="3.4" aria-label="손질">
   <div class="scrub-pin">
     <video class="scrub-video" muted playsinline preload="auto" poster="assets/img/cut-poster.webp"></video>
     <div class="scrub-copy" data-at="0.04-0.42">
@@ -66,7 +75,7 @@
 </section>
 
 <!-- 3. 숯불: 올리고, 연기, 뒤집기 → 완성 장면 루프 -->
-<section id="grill" class="scrub" style="--mzoom:1.26" data-clip="assets/vid/grill.mp4" data-loop="assets/vid/sizzle.mp4" data-loop-at="0.84" data-vh="4.2" aria-label="숯불">
+<section id="grill" class="scrub" data-clip="assets/vid/grill.mp4" data-loop="assets/vid/sizzle.mp4" data-loop-at="0.84" data-vh="4.2" aria-label="숯불">
   <div class="scrub-pin">
     <video class="scrub-video" muted playsinline preload="auto" poster="assets/img/grill-poster.webp"></video>
     <video class="scrub-loop" muted playsinline loop preload="none" poster="assets/img/sizzle-poster.webp"></video>
@@ -87,7 +96,7 @@
 </section>
 
 <!-- 4. 포장 -->
-<section id="pack" class="scrub" style="--mzoom:1.14" data-clip="assets/vid/pack.mp4" data-vh="3.2" aria-label="포장">
+<section id="pack" class="scrub" data-clip="assets/vid/pack.mp4" data-vh="3.2" aria-label="포장">
   <div class="scrub-pin">
     <video class="scrub-video" muted playsinline preload="auto" poster="assets/img/pack-poster.webp"></video>
     <div class="scrub-copy" data-at="0.04-0.44">
@@ -271,5 +280,6 @@
 </footer>
 
 <script type="module" src="js/main.js"></script>
+<script type="module" src="js/cart.js"></script>
 </body>
 </html>
