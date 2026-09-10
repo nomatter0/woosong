@@ -1,0 +1,8 @@
+# 원본·생성 소스 (455MB) — 사이트에는 assets/img, assets/vid 만 쓰입니다
+assets/src/
+# Higgsfield 업로드용 서명 URL (만료되지만 올리지 않음)
+scripts/uploads-*.json
+node_modules/
+.DS_Store
+Thumbs.db
+*.zip

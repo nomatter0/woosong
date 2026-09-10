@@ -1,0 +1,11 @@
+{
+  "name": "woosong-hanwoo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "철마 한우의 명가 우송 — scroll-driven brand site (static)",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "encode": "node scripts/encode.mjs"
+  }
+}
